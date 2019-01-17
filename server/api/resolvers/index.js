@@ -23,8 +23,8 @@ const { UploadScalar, DateScalar } = require('../custom-types');
 
 module.exports = (app) => {
   return {
-    // Upload: UploadScalar,
-    // Date: DateScalar,
+    Upload: UploadScalar,
+    Date: DateScalar,
 
     Query: {
       viewer() {
@@ -52,10 +52,13 @@ module.exports = (app) => {
           throw new ApolloError(e);
         }
       },
-      async items() {
-        // @TODO: Replace this mock return statement with the correct items from Postgres
-        return [];
-        // -------------------------------
+      async items(parent, { filter }, { pgResource }, info) {
+        try {
+          const items = await pgResource.getItems(filter);
+          return items;
+        } catch (e) {
+          throw new ApolloError(e);
+        }
       },
       async tags(parent, args, { pgResource }, info) {
         try {

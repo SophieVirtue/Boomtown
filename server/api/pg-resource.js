@@ -95,17 +95,6 @@ module.exports = (postgres) => {
 
     async getItems(idToOmit) {
       const items = await postgres.query({
-        /**
-         *  @TODO: Advanced queries
-         *
-         *  Get all Items. If the idToOmit parameter has a value,
-         *  the query should only return Items were the ownerid column
-         *  does not contain the 'idToOmit'
-         *
-         *  Hint: You'll need to use a conditional AND and WHERE clause
-         *  to your query text using string interpolation
-         */
-
         text: `SELECT * FROM items ${idToOmit ? 'WHERE ownerid != $1' : ''}`,
         values: idToOmit ? [idToOmit] : []
       });
@@ -113,10 +102,6 @@ module.exports = (postgres) => {
     },
     async getItemsForUser(id) {
       const items = await postgres.query({
-        /**
-         *  @TODO: Advanced queries
-         *  Get all Items. Hint: You'll need to use a LEFT INNER JOIN among others
-         */
         text: `SELECT * FROM items WHERE ownerid = $1`,
         values: [id]
       });
@@ -124,10 +109,6 @@ module.exports = (postgres) => {
     },
     async getBorrowedItemsForUser(id) {
       const items = await postgres.query({
-        /**
-         *  @TODO: Advanced queries
-         *  Get all Items. Hint: You'll need to use a LEFT INNER JOIN among others
-         */
         text: `SELECT * FROM items WHERE borrowerid = $1`,
         values: [id]
       });
@@ -177,14 +158,14 @@ module.exports = (postgres) => {
             // Begin postgres transaction
             client.query('BEGIN', err => {
               // Convert image (file stream) to Base64
-              // const imageStream = image.stream.pipe(strs('base64'));
+              const imageStream = image.stream.pipe(strs('base64'));
 
-              // let base64Str = '';
-              // imageStream.on('data', data => {
-              //   base64Str += data;
-              // });
+              let base64Str = '';
+              imageStream.on('data', data => {
+                base64Str += data;
+              });
 
-              // imageStream.on('end', async () => {
+              imageStream.on('end', async () => {
               // Image has been converted, begin saving things
                 const { title, description, tags } = item;
 
@@ -196,21 +177,21 @@ module.exports = (postgres) => {
                 // @TODO
                 // -------------------------------
 
-                // const imageUploadQuery = {
-                //   text:
-                //     'INSERT INTO uploads (itemid, filename, mimetype, encoding, data) VALUES ($1, $2, $3, $4, $5) RETURNING *',
-                //   values: [
-                //     // itemid,
-                //     image.filename,
-                //     image.mimetype,
-                //     'base64',
-                //     base64Str
-                //   ]
-                // };
+                const imageUploadQuery = {
+                  text:
+                    'INSERT INTO uploads (itemid, filename, mimetype, encoding, data) VALUES ($1, $2, $3, $4, $5) RETURNING *',
+                  values: [
+                    // itemid,
+                    image.filename,
+                    image.mimetype,
+                    'base64',
+                    base64Str
+                  ]
+                };
 
                 // Upload image
-                // const uploadedImage = await client.query(imageUploadQuery);
-                // const imageid = uploadedImage.rows[0].id;
+                const uploadedImage = await client.query(imageUploadQuery);
+                const imageid = uploadedImage.rows[0].id;
 
                 // Generate image relation query
                 // @TODO
@@ -238,27 +219,27 @@ module.exports = (postgres) => {
                   // Uncomment this resolve statement when you're ready!
                   // resolve(newItem.rows[0])
                   // -------------------------------
-          //       });
-          //     });
-          //   });
-          // } catch (e) {
+                });
+              });
+            });
+          } catch (e) {
             // Something went wrong
-            // client.query('ROLLBACK', err => {
-            //   if (err) {
-            //     throw err;
-            //   }
-              // release the client back to the pool
-      //         done();
-      //       });
-      //       switch (true) {
-      //         case /uploads_itemid_key/.test(e.message):
-      //           throw 'This item already has an image.';
-      //         default:
-      //           throw e;
-      //       }
-      //     }
-      //   });
-      // });
+            client.query('ROLLBACK', err => {
+              if (err) {
+                throw err;
+              }
+             // release the client back to the pool
+              done();
+            });
+            switch (true) {
+              case /uploads_itemid_key/.test(e.message):
+                throw 'This item already has an image.';
+              default:
+                throw e;
+            }
+          }
+        });
+      });
     }
   };
 };
