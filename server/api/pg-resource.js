@@ -115,7 +115,6 @@ module.exports = (postgres) => {
         values: [id]
       };
       const tags = await postgres.query(tagsQuery);
-      console.log(tags.rows);
       return tags.rows;
     },
 
