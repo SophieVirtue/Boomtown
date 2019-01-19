@@ -159,19 +159,18 @@ module.exports = (postgres) => {
               // Image has been converted, begin saving things
                 const { title, description, tags } = item;
 
-                // Generate new Item query
-                // @TODO
-                // -------------------------------
+                const newItemQuery = {
+                  text: 'INSERT INTO items (title, description, tags) VALUES ($1, $2, $3) RETURNING *',
+                  values: [title, description, tags]
+                };
 
-                // Insert new Item
-                // @TODO
-                // -------------------------------
+                const insertNewItem = await postgres.query(newItemQuery);
 
                 const imageUploadQuery = {
                   text:
                     'INSERT INTO uploads (itemid, filename, mimetype, encoding, data) VALUES ($1, $2, $3, $4, $5) RETURNING *',
                   values: [
-                    // itemid,
+                    itemid,
                     image.filename,
                     image.mimetype,
                     'base64',
@@ -194,7 +193,12 @@ module.exports = (postgres) => {
                 // Generate tag relationships query (use the'tagsQueryString' helper function provided)
                 // @TODO
                 // -------------------------------
+                const tagRelationshipQuery = {
+                  text: 'INSERT INTO itemtags(tags, itemid, result) VALUES($1, $2, $3) RETURNING *',
+                  values: [tags, itemid, result]
+                };
 
+                const insertNewItem = await postgres.query(tagsQueryString, tagRelationshipQuery);
                 // Insert tags
                 // @TODO
                 // -------------------------------
