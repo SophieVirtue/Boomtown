@@ -1,5 +1,15 @@
 # Boomtown 🏙
 
+Building a database for a back-end application supporting a sharing economy.
+
+## Technologies Used
+
+- PostgreSQL
+- GraphQL 
+- Node.js/Express
+- Javascript/Functional Programming
+- Terminal
+
 ## Server
 
 Commands must be run from the `server` directory:
@@ -14,38 +24,6 @@ npm install
 
 ```bash
 npm run start:dev
-```
-
-### Tests
-
-Just linting:
-
-```bash
-npm run lint
-```
-
-Run linting, and fix any errors:
-
-```bash
-npm run lint:fix
-```
-
-Run Jest tests:
-
-```
-npm run jest
-```
-
-Run Jest tests, and watch for changes:
-
-```bash
-npm run jest:watch
-```
-
-Run all tests:
-
-```bash
-npm run test
 ```
 
 ## Client
@@ -70,24 +48,6 @@ npm start
 npm run build
 ```
 
-### Tests
+## Personal Learnings
 
-Just linting:
-
-```bash
-npm run lint
-```
-
-Run linting, and fix any errors:
-
-```bash
-npm run lint:fix
-```
-
-Run all tests:
-
-```bash
-npm run test
-```
-
-
+Although I'm starting to get more comfortable with Javascript, more practice is definitely needed.
