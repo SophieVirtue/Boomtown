@@ -73,7 +73,7 @@ module.exports = (postgres) => {
 
     async getItemsForUser(id) {
       const items = await postgres.query({
-        text: `SELECT * FROM items WHERE itemowner = $1`,
+        text: `SELECT * FROM items WHERE ownerid = $1`,
         values: [id]
       });
       return items.rows;
@@ -101,7 +101,7 @@ module.exports = (postgres) => {
       return tags.rows;
     },
 
-    async saveNewItem({ item, image, user }) {
+    async saveNewItem({ item, user }) { //add image later
       /**
        *  @TODO: Adding a New Item
        *
@@ -129,16 +129,16 @@ module.exports = (postgres) => {
         postgres.connect((err, client, done) => {
           try {
             // Begin postgres transaction
-            client.query('BEGIN', err => {
+            client.query('BEGIN', async err => {
               // Convert image (file stream) to Base64
-              const imageStream = image.stream.pipe(strs('base64'));
+              // const imageStream = image.stream.pipe(strs('base64'));
 
-              let base64Str = '';
-              imageStream.on('data', data => {
-                base64Str += data;
-              });
+              // let base64Str = '';
+              // imageStream.on('data', data => {
+              //   base64Str += data;
+              // });
 
-              imageStream.on('end', async () => {
+              // imageStream.on('end', async () => {
               // Image has been converted, begin saving things
                 const { title, description, tags } = item;
 
@@ -149,21 +149,21 @@ module.exports = (postgres) => {
 
                 const insertNewItem = await postgres.query(newItemQuery);
 
-                const imageUploadQuery = {
-                  text:
-                    'INSERT INTO uploads (itemid, filename, mimetype, encoding, data) VALUES ($1, $2, $3, $4, $5) RETURNING *',
-                  values: [
-                    itemid,
-                    image.filename,
-                    image.mimetype,
-                    'base64',
-                    base64Str
-                  ]
-                };
+                // const imageUploadQuery = {
+                //   text:
+                //     'INSERT INTO uploads (itemid, filename, mimetype, encoding, data) VALUES ($1, $2, $3, $4, $5) RETURNING *',
+                //   values: [
+                //     itemid,
+                //     image.filename,
+                //     image.mimetype,
+                //     'base64',
+                //     base64Str
+                //   ]
+                // };
 
                 // Upload image
-                const uploadedImage = await client.query(imageUploadQuery);
-                const imageid = uploadedImage.rows[0].id;
+                // const uploadedImage = await client.query(imageUploadQuery);
+                // const imageid = uploadedImage.rows[0].id;
 
                 // Generate image relation query
                 // @TODO
@@ -172,9 +172,8 @@ module.exports = (postgres) => {
                 // Insert image
                 // @TODO
                 // -------------------------------
-
                 const tagRelationshipQuery = {
-                  text: `INSERT INTO itemtags(tagid, itemid) VALUES ${tagsQueryString([...tags], itemid, '')} RETURNING *`,
+                  text: `INSERT INTO itemtags(tagid, itemid) VALUES ${tagsQueryString([...tags], insertNewItem.rows[0].id, '')}`,
                   values: tags.map(tag => tag.id)
                 };
 
@@ -187,12 +186,11 @@ module.exports = (postgres) => {
                   }
                   // release the client back to the pool
                   done();
-                  // Uncomment this resolve statement when you're ready!
-                  // resolve(newItem.rows[0])
-                  // -------------------------------
+
+                  resolve(insertNewItem.rows[0])
                 });
               });
-            });
+            // });
           } catch (e) {
             // Something went wrong
             client.query('ROLLBACK', err => {

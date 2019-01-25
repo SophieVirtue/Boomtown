@@ -5,16 +5,17 @@ import Items from '../pages/Items';
 import Home from '../pages/Home';
 import Profile from '../pages/Profile';
 import Share from '../pages/Share';
+import HeaderBar from '../components/HeaderBar';
 
 
 export default () => (
   <Fragment>
-    {/* @TODO: Add your menu component here */}
+     <HeaderBar /> 
     <Switch>
       <Route exact path="/items" component={Items} />
       <Route exact path="/welcome" component={Home} />
       <Route exact path="/profile" component={Profile} />
-      <Route exact path="/profile/[ID_HERE]" component={Profile} />
+      <Route exact path="/profile/:userid" component={Profile} />
       <Route exact path="/share" component={Share} />
       <Redirect to='/items' />
       {/**
