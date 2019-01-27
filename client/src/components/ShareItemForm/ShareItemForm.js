@@ -1,6 +1,13 @@
 import React, { Component } from 'react';
 import { Form, Field } from "react-final-form";
-import {TextField, Button, Input, Select, InputLabel, MenuItem, FormControl, ListItemText} from "@material-ui/core";
+import {TextField, 
+  Button, 
+  Input, 
+  Select, 
+  InputLabel, 
+  MenuItem, 
+  FormControl, 
+  ListItemText} from "@material-ui/core";
 import styles from './styles';
 import { withStyles } from '@material-ui/core/styles';
 
@@ -56,7 +63,6 @@ class ShareItemForm extends Component {
                 <TextField
                   id="standard-textarea"
                   label="Name your Item"
-                  placeholder=""
                   multiline
                   className={classes.textField}
                   margin="normal"
@@ -76,9 +82,8 @@ class ShareItemForm extends Component {
                <Input
                   placeholder="Describe your Item"
                   className={classes.input}
-                  inputProps={{
-                    'aria-label': 'Description',
-                  }}
+                  multiline 
+                  rows='4'
                   />
                 {meta.touched && meta.invalid &&
                 <div className="error" style={{color: "red", fontsize: "10px"}}>
@@ -86,6 +91,7 @@ class ShareItemForm extends Component {
                 </div>
              )} 
             /> 
+
             <Field
             name="tags"
              render={({classes, meta}) => (
