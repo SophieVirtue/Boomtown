@@ -15,8 +15,9 @@ import ShareItemForm from '../../components/ShareItemForm';
 
 */
 
-const Share = ({ classes }) => {
-  return <ShareItemForm className={classes.SharePage} />;
+const Share = ({ classes, tags }) => {
+  console.log(tags);
+  return <ShareItemForm classes={classes} tags={tags} />;
 };
 
 export default Share;

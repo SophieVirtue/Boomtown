@@ -2,22 +2,22 @@ import React, { Component } from 'react';
 import Share from './Share';
 import { withStyles } from '@material-ui/core/styles';
 import styles from './styles';
-import { ADD_ITEM_MUTATION } from '../../apollo/queries';
+import { ADD_ITEM_MUTATION, ALL_TAGS_QUERY } from '../../apollo/queries';
 import FullScreenLoader from '../../components/FullScreenLoader';
-import { Mutation } from 'react-apollo';
-// import { } from '../../apollo/queries';
+import { Mutation, Query } from 'react-apollo';
 
 class ShareContainer extends Component {
   render() {
     return (
-      <Mutation mutation={ADD_ITEM_MUTATION}>
+
+      <Query query={ALL_TAGS_QUERY}>
         {({ loading, error, data }) => {
           if (loading) return <FullScreenLoader inverted />;
           if (error) return <p>{`Error! ${error.message}`}</p>;
-          console.log(data);
-          return <Share classes={this.props.classes} addItem={data} />;
+          console.log(data.tags);
+          return <Share classes={this.props.classes} tags={data.tags} />;
         }}
-      </Mutation>
+      </Query>
     );
   }
 }
