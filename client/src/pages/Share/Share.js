@@ -1,6 +1,9 @@
 import React from 'react';
+import ShareItemForm from '../../components/ShareItemForm';
+// import ShareItemPreview from '../../components/ShareItemPreview';
+
 /* 
-  TODO: Create ShareItemFrom and ShareItemPreview in the components dir
+  TODO: Create ShareItemPreview in the components dir
   and call them from this file.
 
   ShareItemForm is the form that our User will use to add a new item 
@@ -11,17 +14,9 @@ import React from 'react';
   Hint: It should look like any other Item card.
 
 */
-// import ShareItemForm from '../../components/ShareItemForm';
-// import ShareItemPreview from '../../components/ShareItemPreview';
 
 const Share = ({ classes }) => {
-  return (
-    <div>
-      <p>
-        This is the share page located at <code>/share</code>.
-      </p>
-    </div>
-  );
+  return <ShareItemForm className={classes.SharePage} />;
 };
 
 export default Share;

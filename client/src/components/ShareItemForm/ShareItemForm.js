@@ -1,4 +1,6 @@
 import React, { Component } from 'react';
+import { Form, Field } from "react-final-form";
+import TextField from "@material-ui/core/TextField";
 
 class ShareForm extends Component {
   constructor(props) {
@@ -6,13 +8,45 @@ class ShareForm extends Component {
     this.state = {};
   }
 
-  render() {
+render() {
     return (
-      <div>
-        <p>This is the share form.</p>
+      <div className="App">
+        <h2>Share. Borrow. Prosper</h2>
+        <Form 
+        onSubmit={this.onSubmit}
+        validate={this.validate}
+        render={({ handleSubmit }) => (
+            <form onSubmit={handleSubmit}>
+             <Field 
+             name="name"
+             render={({input, meta}) => (
+               <div className="field">
+                <label for="name">Name</label>
+                <TextField inputProps={input}/>
+                
+                {meta.touched && meta.invalid &&
+                <div className="error" style={{color: "red", fontsize: "10px"}}>
+                {meta.error}</div>}
+                </div>
+             )} /> 
+            <Field
+              name="email"
+              render={({ input, meta }) => (
+                <div className="field">
+                  <label for="email">Email</label>
+                  <input type="text" {...input} />
+                  {meta.touched && meta.invalid &&
+                    <div className="error" style={{ color: "red", fontsize: "10px" }}>
+                      {meta.error}</div>}
+                </div>
+              )} /> 
+            </form>
+        )}
+        /> 
       </div>
     );
   }
 }
+
 
 export default ShareForm;

@@ -5,15 +5,6 @@ import styles from './styles';
 // import gql from "graphql-tag";
 // import { Query } from "react-apollo";
 
-// const GET_TAGS = gql`
-//   {
-//     tags {
-//       id
-//       title
-//     }
-//   }
-// `;
-
 class HomeContainer extends Component {
   render() {
   //   return (

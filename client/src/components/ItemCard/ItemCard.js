@@ -15,7 +15,7 @@ const ItemCard = ({classes, item}) => {
       <Fragment>
         <CardMedia
           className={classes.media}
-          image=""
+        //   image="https://unsplash.com/photos/3pagydwiHC4"
           title="Contemplative Reptile"
         />
         <CardContent>
