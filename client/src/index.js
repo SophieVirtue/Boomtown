@@ -10,7 +10,7 @@ import theme from './theme';
 import client from './apollo'
 import Layout from './routes/Layout'
 import store from './redux'
-
+import './index.css';
 
 /**
  * @TODO: Add the Viewer Context
@@ -22,7 +22,6 @@ import store from './redux'
  * user is currently logged in and who that user is.
  */
 
-import './index.css';
 
 const App = () => {
   return (

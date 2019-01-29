@@ -15,17 +15,20 @@ const ItemCard = ({classes, item}) => {
       <Fragment>
         <CardMedia
           className={classes.media}
-        //   image="https://unsplash.com/photos/3pagydwiHC4"
+          image={item.imageurl}
           title="Contemplative Reptile"
         />
         <CardContent>
-          <Typography gutterBottom variant="h5" component="h2">
-            <h2>{item.title}</h2>
+          <Typography gutterBottom component="h2">
+            {item.title}
           </Typography>
           <Typography component="p">
-            <p>{item.description}</p>
-            <p>{item.tags.map(tag => tag.title)}</p>
-          </Typography>
+            {item.description}
+            </Typography>
+            <Typography component="p">
+            {item.tags.map(tag => tag.title).join(', ')}
+            </Typography>
+          
         </CardContent>
       </Fragment>
       <CardActions>

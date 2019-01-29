@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
-import { Form, Field } from 'react-final-form';
+import { Form, Field, FormSpy } from 'react-final-form';
+import PropTypes from 'prop-types';
 import {
   TextField,
   Button,
@@ -13,6 +14,8 @@ import {
 } from '@material-ui/core';
 import styles from './styles';
 import { withStyles } from '@material-ui/core/styles';
+import { updateItem, resetItem, resetImage } from '../../redux/modules/ShareItem';
+import {connect} from 'react-redux';
 
 const ITEM_HEIGHT = 48;
 const ITEM_PADDING_TOP = 8;
@@ -28,12 +31,50 @@ const MenuProps = {
 class ShareItemForm extends Component {
   constructor(props) {
     super(props);
-    this.state = { tags: [] };
+    this.fileInput = React.createRef();
+    this.state = { 
+      fileSelected: false, 
+      done: false,
+      selectedTags: []  };
   }
 
-  handleChange = event => {
-    this.setState({ tags: event.target.title });
-  };
+  applyTags(tags) {
+    return (
+      tags &&
+      tags
+        .filter(t => this.state.selectedTags.indexOf(t.id) > -1)
+        .map(t => ({ title: t.title, id: t.id }))
+    );
+  }
+
+  getBase64Url() {
+    return new Promise(resolve => {
+      const reader = new FileReader();
+      reader.onload = e => {
+        resolve(
+          `data:${this.state.fileSelected.type};base64, ${btoa(
+            e.target.result
+          )}`
+        );
+      };
+      reader.readAsBinaryString(this.state.fileSelected);
+    });
+  }
+
+  handleSelectTags = event => {
+    this.setState({ selectedTags: event.target.value });
+  }
+
+  generateTagsText(tags, selected) {
+    return tags
+      .map(t => (selected.indexOf(t.id) > -1 ? t.title : false))
+      .filter(e => e)
+      .join(', ');
+  }
+
+  handleSelectFile = () => {
+    this.setState({fileSelected: this.fileInput.current.files[0]});
+  }
 
   onSubmit(o) {
     console.log('Submitting:', o);
@@ -53,27 +94,58 @@ class ShareItemForm extends Component {
   //    return error;
   //  }
 
+  dispatchUpdate(values, tags, updateItem) {
+    if (!values.imageurl && this.state.fileSelected) {
+      this.getBase64Url().then(imageurl => {
+        updateItem({
+          imageurl
+        });
+      });
+    }
+    updateItem({
+      ...values,
+      tags: this.applyTags(tags)
+    });
+  }
+
   render() {
-    const { classes, tags } = this.props;
+    const { classes, tags, updateItem, resetImage, resetItem } = this.props;
     return (
       <div className="App">
         <h1>Share. Borrow. Prosper.</h1>
         <Form
           onSubmit={this.onSubmit}
           validate={this.validate}
-          render={({ handleSubmit, handleChange }) => (
+          render={({ handleSubmit, handleSelectTags }) => (
             <form onSubmit={handleSubmit}>
-              <Button size="small" color="primary">
+              <FormSpy
+                subscription={{ values: true }}
+                component={({ values }) => {
+                if (values) {
+                this.dispatchUpdate(values, tags, updateItem);
+                }
+                return '';
+                }}
+              />
+              <Button 
+                size="small" 
+                color="primary"
+                onClick={() => {
+                  this.fileInput.current.click();
+                }}
+              >
                 Select an image
               </Button>
+              <input hidden type="file" id="fileInput" ref={this.fileInput} accept='image/*' onChange={() => {this.handleSelectFile();}}/>
 
               <Field
-                name="name"
+                name="title"
                 render={({ input, meta }) => (
                   <div className="field">
                     <TextField
                       id="standard-textarea"
                       label="Name your Item"
+                      type="text"{...input}
                       multiline
                       className={classes.textField}
                       margin="normal"
@@ -93,12 +165,13 @@ class ShareItemForm extends Component {
               />
 
               <Field
-                name="name"
+                name="description"
                 render={({ input, meta }) => (
                   <div className="field">
                     <Input
                       placeholder="Describe your Item"
                       className={classes.input}
+                      inputProps={input}
                       multiline
                       rows="4"
                     />
@@ -115,33 +188,33 @@ class ShareItemForm extends Component {
                 )}
               />
 
-              <Field
-                name="tags"
-                render={({ classes, meta }) => (
-                  <div className="field">
+              
+                <Field name="tags"
+                render={({input, meta}) => (
                     <FormControl fullWidth>
                       <InputLabel htmlFor="select-multiple-checkbox">
                         Add some tags
                       </InputLabel>
                       <Select
                         multiple
-                        value={this.state.tags}
-                        onChange={event => this.handleChange(event)}
-                        input={<Input id="select-multiple-checkbox" />}
-                        renderValue={selected => selected.join(', ')}
-                        MenuProps={MenuProps}
+                        value={this.state.selectedTags}
+                        onChange={this.handleSelectTags}
+                        renderValue={selected => {
+                          return this.generateTagsText(tags, selected)
+                        }}
                       >
-                        {tags.map(tag => (
-                          <MenuItem key={tag.id} value={tag.title}>
-                            <Checkbox checked={tags.indexOf(tags) > -1} />
+                        {tags && tags.map(tag => (
+                          <MenuItem key={tag.id} value={tag.id}>
+                            <Checkbox checked={this.state.selectedTags.indexOf(tag.id) > -1} />
                             <ListItemText primary={tag.title} />
                           </MenuItem>
                         ))}
                       </Select>
                     </FormControl>
-                  </div>
-                )}
-              />
+                  )}
+                  />
+                
+             
 
               <Button size="small" color="primary">
                 Share
@@ -154,4 +227,20 @@ class ShareItemForm extends Component {
   }
 }
 
-export default withStyles(styles)(ShareItemForm);
+ShareItemForm.propTypes = {
+  classes: PropTypes.object.isRequired
+};
+
+const mapDispatchToProps = dispatch => ({
+  updateItem(item) {
+    dispatch(updateItem(item));
+  }, 
+  resetItem() {
+    dispatch(resetItem());
+  }, 
+  resetImage() {
+    dispatch(resetImage());
+  }
+});
+
+export default connect(null, mapDispatchToProps)(withStyles(styles)(ShareItemForm));
