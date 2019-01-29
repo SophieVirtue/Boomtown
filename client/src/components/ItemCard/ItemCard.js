@@ -41,4 +41,27 @@ ItemCard.propTypes = {
   classes: PropTypes.object.isRequired,
 };
 
+ItemCard.defaultProps = {
+    item: {
+      borrower: 'null',
+      description: 'Description 1',
+      id: 'X',
+      imageurl:
+        '../../images/boomtown.svg',
+      itemowner: {
+        bio: 'My bio',
+        email: 'x@sample.com',
+        fullname: 'X',
+        id: 'X'
+      },
+      tags: [
+        {
+          id: '1',
+          title: 'Tools'
+        }
+      ],
+      title: 'Picture'
+    }
+  };
+
 export default withStyles(styles)(ItemCard);
