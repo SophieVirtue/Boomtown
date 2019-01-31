@@ -10,12 +10,12 @@ const ItemsGrid = ({ classes, items }) => {
       <Grid container className={classes.grid} spacing={8}>
             {items.map(item => {
                 return (
-                  <Grid item xs={12} sm={6} md={4} className={classes.gridItem}>
+                  <Grid  item xs={12} sm={6} md={4} className={classes.gridItem} key={item.id}>
                   <ItemCard item={item} />
                   </Grid>
                 );
                 })}
-              </Grid>
+        </Grid>
     );
   };
 
