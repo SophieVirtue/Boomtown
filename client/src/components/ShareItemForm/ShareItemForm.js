@@ -16,6 +16,7 @@ import styles from './styles';
 import { withStyles } from '@material-ui/core/styles';
 import { updateItem, resetItem, resetImage } from '../../redux/modules/ShareItem';
 import {connect} from 'react-redux';
+import {validate} from './helpers/validation';
 
 const ITEM_HEIGHT = 48;
 const ITEM_PADDING_TOP = 8;
@@ -76,23 +77,9 @@ class ShareItemForm extends Component {
     this.setState({fileSelected: this.fileInput.current.files[0]});
   }
 
-  onSubmit(o) {
-    console.log('Submitting:', o);
+  onSubmit(values) {
+    console.log('Submitting:', values);
   }
-
-  //  validate(o) {
-  //    console.log("Validating:", o);
-  //    const error = {};
-  //    if(!o.name) {
-  //      error.name = "Name is required";
-  //    }
-  //    if (!o.email) {
-  //      error.email = "Email is required";
-  //    } else if (!/.*@.*\..*/.test(o.email)) {
-  //      error.email = "Email invalid";
-  //    }
-  //    return error;
-  //  }
 
   dispatchUpdate(values, tags, updateItem) {
     if (!values.imageurl && this.state.fileSelected) {
@@ -115,8 +102,10 @@ class ShareItemForm extends Component {
         <h1>Share. Borrow. Prosper.</h1>
         <Form
           onSubmit={this.onSubmit}
-          validate={this.validate}
-          render={({ handleSubmit, handleSelectTags }) => (
+          validate={values => {
+            return validate(values, this.state.selectedTags, this.state.fileSelected)}
+          }
+          render={({ handleSubmit, pristine, submitting, values, invalid }) => (
             <form onSubmit={handleSubmit}>
               <FormSpy
                 subscription={{ values: true }}
@@ -127,7 +116,10 @@ class ShareItemForm extends Component {
                 return '';
                 }}
               />
+
+              {!this.state.fileSelected ?
               <Button 
+                fullWidth
                 size="small" 
                 color="primary"
                 onClick={() => {
@@ -135,8 +127,27 @@ class ShareItemForm extends Component {
                 }}
               >
                 Select an image
-              </Button>
-              <input hidden type="file" id="fileInput" ref={this.fileInput} accept='image/*' onChange={() => {this.handleSelectFile();}}/>
+              </Button> : 
+            <Button 
+            fullWidth
+            size="small" 
+            color="primary"
+            onClick={() => {
+              this.fileInput.current.value = '';
+              this.setState({fileSelected: false});
+              resetImage();
+            }}
+          >
+            Reset image
+          </Button>}
+              <input 
+                hidden 
+                type="file" 
+                id="fileInput" 
+                ref={this.fileInput} 
+                accept='image/*' 
+                onChange={() => {this.handleSelectFile();}}
+              />
 
               <Field
                 name="title"
@@ -210,13 +221,27 @@ class ShareItemForm extends Component {
                           </MenuItem>
                         ))}
                       </Select>
+                      {/* {meta.touched &&
+                      meta.invalid && (
+                        <div
+                          className="error"
+                          style={{ color: 'red', fontsize: '10px' }}
+                        >
+                          {meta.error}
+                          </div>
+                      )} */}
                     </FormControl>
                   )}
                   />
                 
              
 
-              <Button size="small" color="primary">
+              <Button 
+              size="small" 
+              color="primary"
+              type='submit'
+              // onClick={resetItem}
+              disabled={submitting || pristine || invalid}>
                 Share
               </Button>
             </form>

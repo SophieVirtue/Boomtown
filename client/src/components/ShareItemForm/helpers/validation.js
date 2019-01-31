@@ -1,11 +1,16 @@
-export default function validate(values) {
-  const errors = {};
-
-  /**
-   * @TODO: Write the validation rules for the share form.
-   *
-   * An item title, description, and at least one tag is required for all items.
-   */
-
-  return errors;
+export function validate(values, selectedTags, fileSelected) {
+  const error = {};
+  if(!values.title) {
+    error.title = "Item name is required";
+  }
+  if (!values.description) {
+    error.description = "Item description is required";
+  } 
+  if (!fileSelected) {
+    error.fileSelected = "Image is required";
+  }
+  if (!selectedTags) {
+    error.selectedTags = "At least 1 tag must be selected";
+  }
+  return error;
 }

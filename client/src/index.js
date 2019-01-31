@@ -35,8 +35,8 @@ const App = () => {
       </ApolloProvider>
     </MuiThemeProvider>
     </ReduxProvider>
-  );
-};
+  )
+}
 
-ReactDOM.render(<App />, document.getElementById('root'));
-registerServiceWorker();
+ReactDOM.render(<App />, document.getElementById('root'))
+registerServiceWorker()
