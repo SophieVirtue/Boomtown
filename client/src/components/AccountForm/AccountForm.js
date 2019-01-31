@@ -26,8 +26,6 @@ class AccountForm extends Component {
 
   render() {
     const { classes } = this.props;
-    //delete later
-  console.log(this.props);
 
     return (
       // <Form>

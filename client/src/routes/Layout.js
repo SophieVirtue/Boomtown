@@ -7,7 +7,7 @@ import Profile from '../pages/Profile';
 import Share from '../pages/Share';
 import HeaderBar from '../components/HeaderBar';
 import {ViewerContext} from '../context/ViewerProvider';
-import FullScreenLoader from '../components/FullScreenLoader/FullScreenLoader';
+import FullScreenLoader from '../components/FullScreenLoader';
 
 export default () => (
   <Fragment>

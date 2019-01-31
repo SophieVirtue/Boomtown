@@ -2,9 +2,9 @@ import React, { Component } from 'react';
 import Share from './Share';
 import { withStyles } from '@material-ui/core/styles';
 import styles from './styles';
-import { ADD_ITEM_MUTATION, ALL_TAGS_QUERY } from '../../apollo/queries';
+import { ALL_TAGS_QUERY } from '../../apollo/queries';
 import FullScreenLoader from '../../components/FullScreenLoader';
-import { Mutation, Query } from 'react-apollo';
+import { Query } from 'react-apollo';
 
 class ShareContainer extends Component {
   render() {

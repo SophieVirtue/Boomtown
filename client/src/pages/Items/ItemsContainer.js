@@ -5,8 +5,6 @@ import styles from './styles';
 import FullScreenLoader from '../../components/FullScreenLoader';
 import { Query } from 'react-apollo';
 import { ALL_ITEMS_QUERY } from '../../apollo/queries';
-// import { ITEM_QUERY } from '../../apollo/queries';
-// import { filter } from 'async';
 
 class ItemsContainer extends Component {
   render() {
