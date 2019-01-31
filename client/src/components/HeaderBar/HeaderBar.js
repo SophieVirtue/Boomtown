@@ -6,7 +6,7 @@ import Toolbar from '@material-ui/core/Toolbar';
 import Button from '@material-ui/core/Button';
 import Logo from '../../images/boomtown.svg';
 import AddIcon from '@material-ui/icons/AddCircle';
-import styles from './style';
+import styles from './styles';
 
 const HeaderBar = ({classes}) => {
   return (
@@ -14,6 +14,7 @@ const HeaderBar = ({classes}) => {
       <AppBar position="static">
         <Toolbar>
           <Button color="inherit" ><img src={Logo} width="40"/></Button>
+          <div className={classes.grow} />
           <Button variant="contained" color="primary" className={classes.button} >
             <AddIcon className={classes.addIcon} /> 
             Share Something

@@ -20,16 +20,7 @@ class ItemsContainer extends Component {
           return <Items classes={this.props.classes} items={data.items} />;
         }}
       </Query>
-
-    {/*    <Query query={ITEM_QUERY} variables={{ id: '0' }}>
-         {({ loading, error, data }) => {
-         //   if (loading) return <FullScreenLoader inverted />;
-           if (error) return <p>{`Error! ${error.message}`}</p>;
-           console.log(data);
-           return <Items classes={this.props.classes} items={data.items} />;
-         }}
-       </Query> */}
-  </div>
+      </div>
     );
   }
 }

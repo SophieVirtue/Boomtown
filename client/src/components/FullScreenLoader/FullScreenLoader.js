@@ -1,18 +1,7 @@
-import React, { Component } from 'react';
+import React, { Fragment } from 'react';
 
-class ScreenLoader extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {};
-  }
+const FullScreenLoader = ({ classes }) => {
+  return <Fragment />
+};
 
-  render() {
-    return (
-      <div>
-        <p>This is the screen loader.</p>
-      </div>
-    );
-  }
-}
-
-export default ScreenLoader;
+export default FullScreenLoader;
