@@ -1,3 +1,7 @@
-const styles = theme => ({});
+const styles = theme => ({
+    shareButton: {
+        display: 'none', 
+      },
+});
 
 export default styles;

@@ -70,10 +70,9 @@ export const ALL_TAGS_QUERY = gql`
   }
 `;
 
-// add ! after NewItemInput
 export const ADD_ITEM_MUTATION = gql`
-  mutation addItem($item: NewItemInput, $image: Upload!) { 
-    addItem(item: $item, image: $image) {
+  mutation addItem($item: NewItemInput!) { 
+    addItem(item: $item) {
       id
       title
       description
@@ -82,7 +81,6 @@ export const ADD_ITEM_MUTATION = gql`
         title
       }
     }
-    # @TODO: return the new item id when the mutation is complete.
   }
 `;
 

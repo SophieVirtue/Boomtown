@@ -5,13 +5,15 @@ import { connect } from 'react-redux';
 
 
 const ShareItemPreview = ({shareItemPreview}) => {
-    return (
+  console.log(shareItemPreview);  
+  return (
           <ItemCard item={shareItemPreview}/>
     );
   }
 
-  const mapStateToProps = state => ({
-    shareItemPreview: state.shareItemPreview,
-  });
+  const mapStateToProps = state => {
+    console.log('>>>>>>>>>>', state);
+    return {...state}
+  };
 
   export default connect(mapStateToProps)(ShareItemPreview);

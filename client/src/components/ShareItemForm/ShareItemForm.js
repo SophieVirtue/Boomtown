@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Form, Field, FormSpy } from 'react-final-form';
 import PropTypes from 'prop-types';
+import { Mutation } from 'react-apollo';
 import {
   TextField,
   Button,
@@ -17,6 +18,7 @@ import { withStyles } from '@material-ui/core/styles';
 import { updateItem, resetItem, resetImage } from '../../redux/modules/ShareItem';
 import {connect} from 'react-redux';
 import {validate} from './helpers/validation';
+import { ADD_ITEM_MUTATION } from '../../apollo/queries';
 
 const ITEM_HEIGHT = 48;
 const ITEM_PADDING_TOP = 8;
@@ -77,10 +79,6 @@ class ShareItemForm extends Component {
     this.setState({fileSelected: this.fileInput.current.files[0]});
   }
 
-  onSubmit(values) {
-    console.log('Submitting:', values);
-  }
-
   dispatchUpdate(values, tags, updateItem) {
     if (!values.imageurl && this.state.fileSelected) {
       this.getBase64Url().then(imageurl => {
@@ -100,13 +98,35 @@ class ShareItemForm extends Component {
     return (
       <div className="App">
         <h1>Share. Borrow. Prosper.</h1>
+        <Mutation mutation={ADD_ITEM_MUTATION}>
+        {addItemMutation => {
+        return (
         <Form
-          onSubmit={this.onSubmit}
+          onSubmit={async values => {
+            addItemMutation({ 
+              variables: {
+                item: {
+                  ...values, 
+                  tags: this.state.selectedTags.map(tag => ({
+                    id: tag, 
+                    title: ''
+                  }))
+                }
+              }
+            });
+          }}
           validate={values => {
             return validate(values, this.state.selectedTags, this.state.fileSelected)}
           }
-          render={({ handleSubmit, pristine, submitting, values, invalid }) => (
-            <form onSubmit={handleSubmit}>
+          render={({ handleSubmit, pristine, submitting, invalid, form }) => (
+            <form onSubmit={event => {
+              handleSubmit(event).then(() => {
+                this.fileInput.current.value = '';
+                this.setState({fileSelected: false});
+                form.reset();
+                resetItem();
+                this.setState({selectedTags: []});
+              })}}>
               <FormSpy
                 subscription={{ values: true }}
                 component={({ values }) => {
@@ -183,6 +203,7 @@ class ShareItemForm extends Component {
                       placeholder="Describe your Item"
                       className={classes.input}
                       inputProps={input}
+                      maxLength="5"
                       multiline
                       rows="4"
                     />
@@ -234,19 +255,20 @@ class ShareItemForm extends Component {
                   )}
                   />
                 
-             
-
               <Button 
               size="small" 
               color="primary"
-              type='submit'
-              // onClick={resetItem}
+              variant='contained'
+              type="submit"
               disabled={submitting || pristine || invalid}>
                 Share
               </Button>
             </form>
           )}
         />
+        );
+        }}
+      </Mutation>
       </div>
     );
   }
@@ -261,6 +283,7 @@ const mapDispatchToProps = dispatch => ({
     dispatch(updateItem(item));
   }, 
   resetItem() {
+    console.log('hihi?');
     dispatch(resetItem());
   }, 
   resetImage() {

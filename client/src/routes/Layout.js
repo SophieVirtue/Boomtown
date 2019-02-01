@@ -5,13 +5,11 @@ import Items from '../pages/Items';
 import Home from '../pages/Home';
 import Profile from '../pages/Profile';
 import Share from '../pages/Share';
-import HeaderBar from '../components/HeaderBar';
 import {ViewerContext} from '../context/ViewerProvider';
 import FullScreenLoader from '../components/FullScreenLoader';
 
 export default () => (
   <Fragment>
-    <HeaderBar />
     <ViewerContext.Consumer>
       {({ viewer, loading }) => {
         if (loading) {
@@ -25,7 +23,8 @@ export default () => (
           <Route exact path="/profile/:userid" component={Profile} />
           <Route exact path="/share" component={Share} />
           <Redirect from="*" to="/items" />
-        </Switch>);
+        </Switch>
+        );
         } else {
           return (
           <Switch>

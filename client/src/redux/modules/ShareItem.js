@@ -30,7 +30,6 @@ const initialState = {
     created: new Date()
 };
 
-// Reducer
 
 export default(state = initialState, action) => {
     switch(action.type){
@@ -39,6 +38,7 @@ export default(state = initialState, action) => {
         }
 
         case RESET_ITEM:{
+            console.log('hhhhh', action, initialState)
             return {...initialState};
         }
 
