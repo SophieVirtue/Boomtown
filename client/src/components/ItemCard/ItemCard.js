@@ -16,7 +16,7 @@ const ItemCard = ({classes, item}) => {
         <CardMedia
           className={classes.media}
           image={item.imageurl}
-          title="Contemplative Reptile"
+          title="Image"
         />
         <CardContent>
           <Typography gutterBottom component="h2">
