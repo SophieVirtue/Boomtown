@@ -4,7 +4,7 @@ import FormControl from '@material-ui/core/FormControl';
 import Grid from '@material-ui/core/Grid';
 import Input from '@material-ui/core/Input';
 import InputLabel from '@material-ui/core/InputLabel';
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
 import Typography from '@material-ui/core/Typography';
 import { Form, Field } from 'react-final-form';
 import {
@@ -13,7 +13,7 @@ import {
     VIEWER_QUERY
 } from '../../apollo/queries';
 import { graphql, compose } from 'react-apollo';
-import validate from './helpers/validation';
+// import validate from './helpers/validation';
 import styles from './styles';
 
 class AccountForm extends Component {
@@ -24,11 +24,17 @@ class AccountForm extends Component {
     };
   }
 
+  onSubmit(values) {
+    console.log(values);
+  }
+
   render() {
     const { classes } = this.props;
     return (
+      <Fragment>
       <Form
-      render={({ pristine, submitting, invalid }) => (
+      onSubmit={this.onSubmit}
+      render={({ handleSubmit, pristine, submitting, invalid, values }) => (
       <form
         onSubmit={() => {
           console.log('Submitted');
@@ -36,9 +42,11 @@ class AccountForm extends Component {
         className={classes.accountForm}
       >
         {!this.state.formToggle && (
+          <Field
+            name="fullname"
+            render={({input, meta}) => (
           <FormControl fullWidth className={classes.formControl}>
             <InputLabel htmlFor="fullname">Username</InputLabel>
-            <Field>
             <Input
               id="fullname"
               type="text"
@@ -46,13 +54,17 @@ class AccountForm extends Component {
                 autoComplete: 'off'
               }}
               value={''}
+              {...input}
             />
-           </Field>
           </FormControl>
+            )}
+          />
         )}
+        <Field
+        name="email"
+        render={({input, meta}) => (
         <FormControl fullWidth className={classes.formControl}>
           <InputLabel htmlFor="email">Email</InputLabel>
-          <Field>
           <Input
             id="email"
             type="text"
@@ -60,12 +72,16 @@ class AccountForm extends Component {
               autoComplete: 'off'
             }}
             value={''}
+            {...input}
           />
-          </Field>
         </FormControl>
+        )}
+        />
+        <Field
+        name="password"
+        render={({input, meta}) => (
         <FormControl fullWidth className={classes.formControl}>
           <InputLabel htmlFor="password">Password</InputLabel>
-          <Field>
           <Input
             id="password"
             type="password"
@@ -73,9 +89,11 @@ class AccountForm extends Component {
               autoComplete: 'off'
             }}
             value={''}
+            {...input}
           />
-          </Field>
         </FormControl>
+        )}
+        />
         <FormControl className={classes.formControl}>
           <Grid
             container
@@ -94,15 +112,17 @@ class AccountForm extends Component {
                 if(this.state.formToggle) {
                   this.props.loginMutation({ variables: {
                     user: {
-                      email: "go@om.com",
-                      password: "gomsomsoms"
+                      email: values.email,
+                      password: values.password
                     }
                   }
                 });
                 } else {
                   this.props.signupMutation({ variables: {
                     user: {
-                     
+                      fullname: values.fullname,
+                      email: values.email,
+                      password: values.password
                     }
                   }
                 });
@@ -138,6 +158,7 @@ class AccountForm extends Component {
       </form>
       )}
       />
+      </Fragment>
     );
   }
 }

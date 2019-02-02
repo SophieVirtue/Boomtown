@@ -14,6 +14,8 @@ import Menu from '@material-ui/core/Menu';
 import styles from './styles';
 import logo from '../../images/boomtown.svg';
 import { withRouter, Link }from 'react-router-dom';
+import { LOGOUT_MUTATION, VIEWER_QUERY} from '../../apollo/queries';
+import {graphql, compose} from 'react-apollo';
 
 
 class HeaderBar extends React.Component {
@@ -77,9 +79,10 @@ class HeaderBar extends React.Component {
                   to="/profile"
                   >
                   <ProfileIcon />Your Profile</MenuItem>
-                  <MenuItem onClick={this.handleClose}
-                  component={Link}
-                  to="/welcome"
+                  <MenuItem onClick={e => {
+                    e.preventDefault();
+                    this.props.logoutMutation({ });
+                  }}
                   ><LogoutIcon /> Sign Out</MenuItem>
                 </Menu>
               </div>
@@ -94,4 +97,17 @@ HeaderBar.propTypes = {
   classes: PropTypes.object.isRequired,
 };
 
-export default withRouter(withStyles(styles)(HeaderBar));
+const refetchQueries = [
+  {
+    query: VIEWER_QUERY,
+  },
+];
+export default compose(
+  graphql(LOGOUT_MUTATION, {
+    options: {
+      refetchQueries,
+    },
+    name: 'logoutMutation',
+  }),
+  withStyles(styles),
+)(HeaderBar);
