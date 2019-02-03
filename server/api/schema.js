@@ -1,11 +1,6 @@
 const { gql } = require('apollo-server-express');
 
-/**
- *  @TODO: Boomtown Schema
- *
- *  Be sure to finish writing resolvers for all types and any relational fields, where required.
- *
- */
+
 module.exports = gql`
   scalar Upload
 

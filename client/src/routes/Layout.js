@@ -1,12 +1,12 @@
 import React, { Fragment } from 'react';
 import { Redirect, Route, Switch } from 'react-router';
-
 import Items from '../pages/Items';
 import Home from '../pages/Home';
 import Profile from '../pages/Profile';
 import Share from '../pages/Share';
 import {ViewerContext} from '../context/ViewerProvider';
 import FullScreenLoader from '../components/FullScreenLoader';
+import HeaderBar from '../components/HeaderBar/HeaderBar'
 
 export default () => (
   <Fragment>
@@ -17,6 +17,8 @@ export default () => (
         }
         if (viewer) {
           return (
+            <Fragment>
+            <HeaderBar user={viewer} />
           <Switch>
           <Route exact path="/items" component={Items} />
           <Route exact path="/profile" component={Profile} />
@@ -24,6 +26,7 @@ export default () => (
           <Route exact path="/share" component={Share} />
           <Redirect from="*" to="/items" />
         </Switch>
+        </Fragment>
         );
         } else {
           return (

@@ -38,7 +38,6 @@ export default(state = initialState, action) => {
         }
 
         case RESET_ITEM:{
-            console.log('hhhhh', action, initialState)
             return {...initialState};
         }
 

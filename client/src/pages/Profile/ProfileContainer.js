@@ -8,14 +8,13 @@ import { ALL_USER_ITEMS_QUERY } from '../../apollo/queries';
 
 class ProfileContainer extends Component {
   render() {
-    const id =  (this.props.match.params.userid) || '0'; //will need to delete or statement later
+    const id =  (this.props.match.params.userid);
     return (
       <Query query={ALL_USER_ITEMS_QUERY} variables={{ id: id }}>
         {({ loading, error, data }) => {
             if (loading) return <FullScreenLoader inverted />;
           if (error) return <p>{`Error! ${error.message}`}</p>;
-          console.log(data);
-          return <Profile classes={this.props.classes} users={data.users} />;
+          return <Profile classes={this.props.classes} profile={data.user} />;
         }}
       </Query>
     );

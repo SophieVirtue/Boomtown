@@ -8,6 +8,7 @@ import CardMedia from '@material-ui/core/CardMedia';
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
 import styles from './style';
+import {Link, withRouter} from 'react-router-dom';
 
 const ItemCard = ({classes, item}) => {
   return (
@@ -16,6 +17,9 @@ const ItemCard = ({classes, item}) => {
         <CardMedia
           className={classes.media}
           image={item.imageurl}
+
+          component={Link}
+          to={`/profile/${item.itemowner.id}`}
           title="Image"
         />
         <CardContent>
@@ -44,27 +48,4 @@ ItemCard.propTypes = {
   classes: PropTypes.object.isRequired,
 };
 
-ItemCard.defaultProps = {
-    item: {
-      borrower: 'null',
-      description: 'Description 1',
-      id: 'X',
-      imageurl:
-        '../../images/boomtown.svg',
-      itemowner: {
-        bio: 'My bio',
-        email: 'x@sample.com',
-        fullname: 'X',
-        id: 'X'
-      },
-      tags: [
-        {
-          id: '1',
-          title: 'Tools'
-        }
-      ],
-      title: 'Picture'
-    }
-  };
-
-export default withStyles(styles)(ItemCard);
+export default withRouter(withStyles(styles)(ItemCard));

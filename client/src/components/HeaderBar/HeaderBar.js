@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
+import Slide from '@material-ui/core/Slide';
 import IconButton from '@material-ui/core/IconButton';
 import MoreVertIcon from '@material-ui/icons/MoreVert';
 import Button from '@material-ui/core/Button';
@@ -13,10 +14,9 @@ import MenuItem from '@material-ui/core/MenuItem';
 import Menu from '@material-ui/core/Menu';
 import styles from './styles';
 import logo from '../../images/boomtown.svg';
-import { withRouter, Link }from 'react-router-dom';
+import { withRouter, Link } from 'react-router-dom';
 import { LOGOUT_MUTATION, VIEWER_QUERY} from '../../apollo/queries';
 import {graphql, compose} from 'react-apollo';
-
 
 class HeaderBar extends React.Component {
   state = {
@@ -37,20 +37,28 @@ class HeaderBar extends React.Component {
   };
 
   render() {
-    const { classes } = this.props;
-    const { auth, anchorEl } = this.state;
+    const { classes, location } = this.props;
+    const { anchorEl } = this.state;
     const open = Boolean(anchorEl);
+
 
     return (
       <div className={classes.root}>
         <AppBar position="static">
           <Toolbar>
-          <Button color="inherit" ><img src={logo} width="40" alt="Logo" /></Button>
+          <Button color="inherit" href="/items"><img src={logo} width="40" alt="Logo" /></Button>
           <div className={classes.grow} />
-            <Button variant="contained" color="primary" className={classes.shareButton} >
+          <Slide
+           direction="left"
+            in={location.pathname !== '/share'}
+            mountOnEnter
+            unmountOnExit
+          >
+            <Button variant="contained" color="primary" href="/share">
             <AddIcon className={classes.addIcon} /> 
             Share Something
             </Button>
+            </Slide>
               <div>
                 <IconButton
                   aria-owns={open ? 'menu-appbar' : undefined}
@@ -76,7 +84,7 @@ class HeaderBar extends React.Component {
                 >
                   <MenuItem onClick={this.handleClose}
                   component={Link}
-                  to="/profile"
+                  to={`/profile/${this.props.user.id}`}
                   >
                   <ProfileIcon />Your Profile</MenuItem>
                   <MenuItem onClick={e => {
@@ -109,5 +117,4 @@ export default compose(
     },
     name: 'logoutMutation',
   }),
-  withStyles(styles),
-)(HeaderBar);
+  withStyles(styles), withRouter)(HeaderBar);

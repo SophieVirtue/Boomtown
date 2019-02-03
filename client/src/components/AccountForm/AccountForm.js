@@ -7,13 +7,14 @@ import InputLabel from '@material-ui/core/InputLabel';
 import React, { Component, Fragment } from 'react';
 import Typography from '@material-ui/core/Typography';
 import { Form, Field } from 'react-final-form';
+import {Mutation} from 'react-apollo';
 import {
     LOGIN_MUTATION,
     SIGNUP_MUTATION,
     VIEWER_QUERY
 } from '../../apollo/queries';
 import { graphql, compose } from 'react-apollo';
-// import validate from './helpers/validation';
+import validate from './helpers/validation';
 import styles from './styles';
 
 class AccountForm extends Component {
@@ -32,8 +33,22 @@ class AccountForm extends Component {
     const { classes } = this.props;
     return (
       <Fragment>
+        <Mutation mutation={SIGNUP_MUTATION}>
+       {signupMutation => {
+         return (
       <Form
-      onSubmit={this.onSubmit}
+      onSubmit={async values => {
+        signupMutation({ 
+          variables: {
+            user: {
+              ...values
+            }
+          }
+        });
+      }}
+      validate={values => {
+        return validate(values, this.state.formToggle)}
+      }
       render={({ handleSubmit, pristine, submitting, invalid, values }) => (
       <form
         onSubmit={() => {
@@ -56,6 +71,15 @@ class AccountForm extends Component {
               value={''}
               {...input}
             />
+            {meta.touched &&
+                      meta.invalid && (
+                        <div
+                          className="error"
+                          style={{ color: 'red', fontsize: '10px' }}
+                        >
+                          {meta.error}
+                        </div>
+                      )}
           </FormControl>
             )}
           />
@@ -74,6 +98,15 @@ class AccountForm extends Component {
             value={''}
             {...input}
           />
+          {meta.touched &&
+                      meta.invalid && (
+                        <div
+                          className="error"
+                          style={{ color: 'red', fontsize: '10px' }}
+                        >
+                          {meta.error}
+                        </div>
+                      )}
         </FormControl>
         )}
         />
@@ -91,6 +124,15 @@ class AccountForm extends Component {
             value={''}
             {...input}
           />
+          {meta.touched &&
+                      meta.invalid && (
+                        <div
+                          className="error"
+                          style={{ color: 'red', fontsize: '10px' }}
+                        >
+                          {meta.error}
+                        </div>
+                      )}
         </FormControl>
         )}
         />
@@ -158,6 +200,9 @@ class AccountForm extends Component {
       </form>
       )}
       />
+      );
+      }}
+      </Mutation>
       </Fragment>
     );
   }

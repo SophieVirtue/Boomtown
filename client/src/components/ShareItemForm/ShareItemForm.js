@@ -20,16 +20,16 @@ import {connect} from 'react-redux';
 import {validate} from './helpers/validation';
 import { ADD_ITEM_MUTATION } from '../../apollo/queries';
 
-const ITEM_HEIGHT = 48;
-const ITEM_PADDING_TOP = 8;
-const MenuProps = {
-  PaperProps: {
-    style: {
-      maxHeight: ITEM_HEIGHT * 4.5 + ITEM_PADDING_TOP,
-      width: 250
-    }
-  }
-};
+// const ITEM_HEIGHT = 48;
+// const ITEM_PADDING_TOP = 8;
+// const MenuProps = {
+//   PaperProps: {
+//     style: {
+//       maxHeight: ITEM_HEIGHT * 4.5 + ITEM_PADDING_TOP,
+//       width: 250
+//     }
+//   }
+// };
 
 class ShareItemForm extends Component {
   constructor(props) {
@@ -242,15 +242,6 @@ class ShareItemForm extends Component {
                           </MenuItem>
                         ))}
                       </Select>
-                      {/* {meta.touched &&
-                      meta.invalid && (
-                        <div
-                          className="error"
-                          style={{ color: 'red', fontsize: '10px' }}
-                        >
-                          {meta.error}
-                          </div>
-                      )} */}
                     </FormControl>
                   )}
                   />
@@ -283,7 +274,6 @@ const mapDispatchToProps = dispatch => ({
     dispatch(updateItem(item));
   }, 
   resetItem() {
-    console.log('hihi?');
     dispatch(resetItem());
   }, 
   resetImage() {

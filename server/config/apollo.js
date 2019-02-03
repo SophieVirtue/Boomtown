@@ -15,25 +15,10 @@ module.exports = ({ app, pgResource }) => {
       const tokenName = app.get("JWT_COOKIE_NAME")
       const token = req ? req.cookies[tokenName] : undefined
 
-
-
       return {
         pgResource,
         req, 
         token
-        /**
-         * @TODO: Provide Apollo context
-         *
-         * When initializing Apollo, we can provide a context object which will be
-         * passed to each resolver function. This is useful because there are a
-         * number of things we'll need to access in every resolver function.
-         *
-         * Above we can see that we are capturing the cookie from the request object,
-         * and retrieving the token. This is important for authentication.
-         *
-         * Refactor this code and supply any additional information (values, methods, objects...etc)
-         * you'll need to use in your resolving functions.
-         */
       };
     },
     schema

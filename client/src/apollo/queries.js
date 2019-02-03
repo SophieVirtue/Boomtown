@@ -17,12 +17,6 @@ const ItemFields = gql`
       email
       bio
     }
-   # borrower {
-   #   id
-    #  fullname
-     # email
-      #bio
-    #}
   }
 `;
 
@@ -53,9 +47,6 @@ export const ALL_USER_ITEMS_QUERY = gql`
       items {
         ...ItemFields
       }
-      #borrowed {
-      #  ...ItemFields
-      #}
     }
   }
   ${ItemFields}
