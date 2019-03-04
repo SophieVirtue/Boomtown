@@ -14,14 +14,14 @@ import Menu from '@material-ui/core/Menu';
 import styles from './styles';
 import logo from '../../images/boomtown.svg';
 import { withRouter, Link } from 'react-router-dom';
-import { LOGOUT_MUTATION, VIEWER_QUERY} from '../../apollo/queries';
-import {graphql, compose} from 'react-apollo';
+import { LOGOUT_MUTATION, VIEWER_QUERY } from '../../apollo/queries';
+import { graphql, compose } from 'react-apollo';
 import PropTypes from 'prop-types';
 
 class HeaderBar extends React.Component {
   state = {
     auth: true,
-    anchorEl: null,
+    anchorEl: null
   };
 
   handleChange = event => {
@@ -41,59 +41,65 @@ class HeaderBar extends React.Component {
     const { anchorEl } = this.state;
     const open = Boolean(anchorEl);
 
-
     return (
       <div className={classes.root}>
         <AppBar position="static">
           <Toolbar>
-          <Button color="inherit" href="/items"><img src={logo} width="40" alt="Logo" /></Button>
-          <div className={classes.grow} />
-          <Slide
-           direction="left"
-            in={location.pathname !== '/share'}
-            mountOnEnter
-            unmountOnExit
-          >
-            <Button variant="contained" color="primary" href="/share">
-            <AddIcon className={classes.addIcon} /> 
-            Share Something
+            <Button color="inherit" href="/items">
+              <img src={logo} width="40" alt="Logo" />
             </Button>
+            <div className={classes.grow} />
+            <Slide
+              direction="left"
+              in={location.pathname !== '/share'}
+              mountOnEnter
+              unmountOnExit
+            >
+              <Button variant="contained" color="primary" href="/share" className={classes.share}>
+                <AddIcon className={classes.addIcon} />
+                Share Something
+              </Button>
             </Slide>
-              <div>
-                <IconButton
-                  aria-owns={open ? 'menu-appbar' : undefined}
-                  aria-haspopup="true"
-                  onClick={this.handleMenu}
-                  color="inherit"
-                >
-                  <MoreVertIcon />
-                </IconButton>
-                <Menu
-                  id="menu-appbar"
-                  anchorEl={anchorEl}
-                  anchorOrigin={{
-                    vertical: 'top',
-                    horizontal: 'right',
-                  }}
-                  transformOrigin={{
-                    vertical: 'top',
-                    horizontal: 'right',
-                  }}
-                  open={open}
-                  onClose={this.handleClose}
-                >
-                  <MenuItem onClick={this.handleClose}
+            <div>
+              <IconButton
+                aria-owns={open ? 'menu-appbar' : undefined}
+                aria-haspopup="true"
+                onClick={this.handleMenu}
+                color="inherit"
+              >
+                <MoreVertIcon />
+              </IconButton>
+              <Menu
+                id="menu-appbar"
+                anchorEl={anchorEl}
+                anchorOrigin={{
+                  vertical: 'top',
+                  horizontal: 'right'
+                }}
+                transformOrigin={{
+                  vertical: 'top',
+                  horizontal: 'right'
+                }}
+                open={open}
+                onClose={this.handleClose}
+              >
+                <MenuItem
+                  onClick={this.handleClose}
                   component={Link}
                   to={`/profile/${this.props.user.id}`}
-                  >
-                  <ProfileIcon />Your Profile</MenuItem>
-                  <MenuItem onClick={e => {
+                >
+                  <ProfileIcon />Your Profile
+                </MenuItem>
+                <MenuItem
+                  onClick={e => {
                     e.preventDefault();
-                    this.props.logoutMutation({ });
+                    this.props.logoutMutation({});
                   }}
-                  ><LogoutIcon /> Sign Out</MenuItem>
-                </Menu>
-              </div>
+                >
+                  <LogoutIcon /> Sign Out
+                </MenuItem>
+              </Menu>
+            </div>
           </Toolbar>
         </AppBar>
       </div>
@@ -109,15 +115,17 @@ HeaderBar.propTypes = {
 
 const refetchQueries = [
   {
-    query: VIEWER_QUERY,
-  },
+    query: VIEWER_QUERY
+  }
 ];
 
 export default compose(
   graphql(LOGOUT_MUTATION, {
     options: {
-      refetchQueries,
+      refetchQueries
     },
-    name: 'logoutMutation',
+    name: 'logoutMutation'
   }),
-  withStyles(styles), withRouter)(HeaderBar);
+  withStyles(styles),
+  withRouter
+)(HeaderBar);
