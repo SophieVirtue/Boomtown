@@ -6,21 +6,33 @@ import ItemCard from '../ItemCard/ItemCard';
 import styles from './styles';
 
 const ItemsGrid = ({ classes, items }) => {
-    return (
-      <Grid container className={classes.grid} spacing={8}>
-            {items.map(item => {
-                return (
-                  <Grid  item xs={12} sm={6} md={4} className={classes.gridItem} key={item.id}>
-                  <ItemCard item={item} />
-                  </Grid>
-                );
-                })}
-        </Grid>
-    );
-  };
+  return (
+    <Grid container className={classes.grid} spacing={8}>
+      {items.map(item => {
+        return (
+          <Grid
+            item
+            xs={12}
+            sm={6}
+            md={4}
+            className={classes.gridItem}
+            key={item.id}
+          >
+            <ItemCard item={item} />
+          </Grid>
+        );
+      })}
+    </Grid>
+  );
+};
 
 ItemsGrid.propTypes = {
-  classes: PropTypes.object.isRequired
+  classes: PropTypes.object.isRequired,
+  items: PropTypes.arrayOf(
+    PropTypes.shape({
+      id: PropTypes.string.isRequired
+    })
+  ).isRequired
 };
 
 export default withStyles(styles)(ItemsGrid);

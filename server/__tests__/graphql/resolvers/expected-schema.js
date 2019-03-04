@@ -1,7 +1,6 @@
 module.exports = `
 
   scalar Date
-  scalar Upload
 
   enum Role {
     VIEWER  
@@ -82,6 +81,6 @@ module.exports = `
     login(user: LoginInput!): User!
     logout: Boolean!
     signup(user: SignupInput!): User!
-    addItem (item: NewItemInput!, image: Upload!): Item 
+    addItem (item: NewItemInput!): Item 
   }
 `;

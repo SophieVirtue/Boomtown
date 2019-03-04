@@ -1,5 +1,4 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
@@ -17,6 +16,7 @@ import logo from '../../images/boomtown.svg';
 import { withRouter, Link } from 'react-router-dom';
 import { LOGOUT_MUTATION, VIEWER_QUERY} from '../../apollo/queries';
 import {graphql, compose} from 'react-apollo';
+import PropTypes from 'prop-types';
 
 class HeaderBar extends React.Component {
   state = {
@@ -103,6 +103,8 @@ class HeaderBar extends React.Component {
 
 HeaderBar.propTypes = {
   classes: PropTypes.object.isRequired,
+  logoutMutation: PropTypes.func.isRequired,
+  location: PropTypes.object.isRequired
 };
 
 const refetchQueries = [
@@ -110,6 +112,7 @@ const refetchQueries = [
     query: VIEWER_QUERY,
   },
 ];
+
 export default compose(
   graphql(LOGOUT_MUTATION, {
     options: {

@@ -6,48 +6,46 @@ const RESET_IMAGE = 'RESET_IMAGE';
 
 // Action creator
 
-export const updateItem = (item) => ({
-    type: UPDATE_ITEM,
-    payload: item
-  });
+export const updateItem = item => ({
+  type: UPDATE_ITEM,
+  payload: item
+});
 
 export const resetItem = () => ({
-    type: RESET_ITEM
+  type: RESET_ITEM
 });
 
 export const resetImage = () => ({
-    type: RESET_IMAGE
- });
+  type: RESET_IMAGE
+});
 
- // Initial State
+// Initial State
 
 const initialState = {
-    title: 'Name your item',
-    description: 'Describe your item',
-    tags: [],
-    imageurl: 'http://via.placeholder.com/350x250?text=Please select an image',
-    itemowner: {}, 
-    created: new Date()
+  title: 'Name your item',
+  description: 'Describe your item',
+  tags: [],
+  imageurl: 'http://via.placeholder.com/350x250?text=Please select an image',
+  itemowner: {},
+  created: new Date()
 };
 
-
-export default(state = initialState, action) => {
-    switch(action.type){
-        case UPDATE_ITEM: {
-            return {...state, ...action.payload};
-        }
-
-        case RESET_ITEM:{
-            return {...initialState};
-        }
-
-        case RESET_IMAGE:{
-            return {...state, imageurl: initialState.imageurl};
-        }
-
-        default: 
-            return state;
+export default (state = initialState, action) => {
+  switch (action.type) {
+    case UPDATE_ITEM: {
+      return { ...state, ...action.payload };
     }
+
+    case RESET_ITEM: {
+      return { ...initialState, imageurl: initialState.imageurl };
+    }
+
+    case RESET_IMAGE: {
+      return { ...state, imageurl: initialState.imageurl };
+    }
+
+    default: {
+      return state;
+    }
+  }
 };
-
-

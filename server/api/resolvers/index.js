@@ -1,19 +1,18 @@
 const { ApolloError } = require('apollo-server-express');
-const jwt = require("jsonwebtoken");
-const authMutations = require("./auth");
-const { UploadScalar, DateScalar } = require('../custom-types');
+const jwt = require('jsonwebtoken');
+const authMutations = require('./auth');
+const { DateScalar } = require('../custom-types');
 
-module.exports = (app) => {
+module.exports = app => {
   return {
-    Upload: UploadScalar,
     Date: DateScalar,
 
     Query: {
       viewer(root, args, { token }) {
-      if (token) {
-        return jwt.decode(token, app.get("JWT_SECRET"));
-      }
-      return null;
+        if (token) {
+          return jwt.decode(token, app.get('JWT_SECRET'));
+        }
+        return null;
       },
 
       async user(parent, { id }, { pgResource }, info) {
@@ -56,7 +55,9 @@ module.exports = (app) => {
 
       async borrowed(user, args, { pgResource }) {
         try {
-          const borrowedItems = await pgResource.getBorrowedItemsForUser(user.id);
+          const borrowedItems = await pgResource.getBorrowedItemsForUser(
+            user.id
+          );
           return borrowedItems;
         } catch (e) {
           throw new ApolloError(e);
@@ -90,13 +91,6 @@ module.exports = (app) => {
         } catch (e) {
           throw new ApolloError(e);
         }
-      },
-
-      async imageurl({ imageurl, imageid, mimetype, data }) {
-        if (imageurl) return imageurl
-        if (imageid) {
-          return `data:${mimetype};base64, ${data}`
-        }
       }
     },
 
@@ -104,13 +98,16 @@ module.exports = (app) => {
       ...authMutations(app),
 
       async addItem(parent, args, { pgResource, token }, info) {
-       
-        const user = await jwt.decode(token, app.get('JWT_SECRET'));
-        const newItem = await pgResource.saveNewItem({
-          item: args.item,
-          user
-        });
-        return newItem;
+        try {
+          const user = await jwt.decode(token, app.get('JWT_SECRET'));
+          const newItem = await pgResource.saveNewItem({
+            item: args.item,
+            user
+          });
+          return newItem;
+        } catch (e) {
+          throw new ApolloError(e);
+        }
       }
     }
   };

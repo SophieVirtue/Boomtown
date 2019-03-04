@@ -37,7 +37,7 @@ module.exports = (postgres) => {
 
     async getUserAndPasswordForVerification(email) {
       const findUserQuery = {
-        text: 'SELECT * FROM users WHERE email = $1', //TODO:Authentication - Server
+        text: 'SELECT * FROM users WHERE email = $1', 
         values: [email]
       };
       try {
@@ -51,7 +51,7 @@ module.exports = (postgres) => {
 
     async getUserById(id) {
       const findUserQuery = {
-        text: 'SELECT * FROM users WHERE id = $1', //TODO:Authentication - Server
+        text: 'SELECT * FROM users WHERE id = $1', 
         values: [id]
       };
       try {
@@ -133,7 +133,6 @@ module.exports = (postgres) => {
                   resolve(insertNewItem.rows[0])
                 });
               });
-            // });
           } catch (e) {
             // Something went wrong
             client.query('ROLLBACK', err => {

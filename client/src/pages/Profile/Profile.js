@@ -1,6 +1,7 @@
 import React, { Fragment } from 'react';
 import Grid from '@material-ui/core/Grid';
 import ItemCard from '../../components/ItemCard/ItemCard';
+import PropTypes from 'prop-types';
 
 const Profile = ({ classes, profile }) => {
   return (
@@ -22,6 +23,11 @@ const Profile = ({ classes, profile }) => {
     </Grid>
     </Fragment>
   );
+};
+
+Profile.propTypes = {
+  classes: PropTypes.object,
+  profile: PropTypes.object,
 };
 
 export default Profile;

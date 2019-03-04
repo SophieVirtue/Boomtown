@@ -5,11 +5,11 @@ import styles from './styles';
 import { ALL_TAGS_QUERY } from '../../apollo/queries';
 import FullScreenLoader from '../../components/FullScreenLoader';
 import { Query } from 'react-apollo';
+import PropTypes from 'prop-types';
 
 class ShareContainer extends Component {
   render() {
     return (
-
       <Query query={ALL_TAGS_QUERY}>
         {({ loading, error, data }) => {
           if (loading) return <FullScreenLoader inverted />;
@@ -20,5 +20,9 @@ class ShareContainer extends Component {
     );
   }
 }
+
+ShareContainer.propTypes = {
+  classes: PropTypes.object
+};
 
 export default withStyles(styles)(ShareContainer);
