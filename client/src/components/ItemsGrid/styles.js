@@ -1,14 +1,8 @@
 const styles = theme => ({
-    root: {
+    grid: {
       flexGrow: 1,
-    },
-    card: {
-      height: 140,
-      width: 100,
-    },
-    control: {
-      padding: theme.spacing.unit * 2,
-    },
+      padding: 15,
+    }
   });
 
   export default styles;

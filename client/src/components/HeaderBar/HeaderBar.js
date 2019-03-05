@@ -46,7 +46,7 @@ class HeaderBar extends React.Component {
         <AppBar position="static">
           <Toolbar>
             <Button color="inherit" href="/items">
-              <img src={logo} width="40" alt="Logo" />
+              <img src={logo} width="41" alt="Logo" />
             </Button>
             <div className={classes.grow} />
             <Slide
@@ -65,7 +65,7 @@ class HeaderBar extends React.Component {
                 aria-owns={open ? 'menu-appbar' : undefined}
                 aria-haspopup="true"
                 onClick={this.handleMenu}
-                color="inherit"
+                className={classes.greyIcon}
               >
                 <MoreVertIcon />
               </IconButton>

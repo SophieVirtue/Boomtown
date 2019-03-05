@@ -1,12 +1,14 @@
-import React, { Fragment } from 'react';
+import React from 'react';
 import ItemsGrid from '../../components/ItemsGrid/ItemsGrid';
 import PropTypes from 'prop-types';
+import { withStyles } from '@material-ui/core/styles';
+import styles from './styles';
 
 const Items = ({ classes, items }) => {
   return (
-    <Fragment>
-      <ItemsGrid className={classes.ItemsPage} items={items} />
-    </Fragment>
+    <div className={classes.root}>
+      <ItemsGrid items={items} />
+    </div>
   );
 };
 
@@ -19,4 +21,4 @@ Items.propTypes = {
   ).isRequired
 };
 
-export default Items;
+export default withStyles(styles)(Items);

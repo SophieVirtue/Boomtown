@@ -6,11 +6,13 @@ import CardActions from '@material-ui/core/CardActions';
 import CardContent from '@material-ui/core/CardContent';
 import CardMedia from '@material-ui/core/CardMedia';
 import Button from '@material-ui/core/Button';
+import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
-import styles from './style';
+import styles from './styles';
 import { Link, withRouter } from 'react-router-dom';
 import Avatar from '@material-ui/core/Avatar';
 import Gravatar from 'react-gravatar';
+import moment from 'moment';
 
 const ItemCard = ({ classes, item }) => {
   return (
@@ -24,20 +26,28 @@ const ItemCard = ({ classes, item }) => {
           title="Image"
         />
         <CardContent>
-          <Avatar aria-label="user" className={classes.avatar}>
-            {item.itemowner && <Gravatar email={item.itemowner.email} />}
-          </Avatar>
-          <Typography gutterBottom component="h2">
+          <Grid container className={classes.itemowner} alignItems="center">
+            <Avatar aria-label="user" className={classes.avatar}>
+              {item.itemowner && <Gravatar email={item.itemowner.email} />}
+            </Avatar>
+            <Grid item>
+            <Typography component="p">{item.itemowner.fullname}</Typography>
+            <Typography component="p" className={classes.moment}>
+              {moment(item.created).fromNow()}
+            </Typography>
+            </Grid>
+          </Grid>
+          <Typography gutterBottom component="h2" className={classes.title}>
             {item.title}
           </Typography>
-          <Typography component="p">{item.description}</Typography>
-          <Typography component="p">
+          <Typography component="p" className={classes.tags}>
             {item.tags.map(tag => tag.title).join(', ')}
           </Typography>
+          <Typography component="p" className={classes.description}>{item.description}</Typography>
         </CardContent>
       </Fragment>
       <CardActions>
-        <Button size="small" color="primary">
+        <Button variant="outlined" className={classes.button}>
           Borrow
         </Button>
       </CardActions>

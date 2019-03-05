@@ -9,7 +9,7 @@ export default createMuiTheme({
       main: '#212121'
     },
     grey: {
-      main: 'grey'
+      main: '#757575'
     }
   }
 });

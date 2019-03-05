@@ -1,10 +1,9 @@
-const styles = {
+const styles = theme => ({
   grow: {
     flexGrow: 1,
   },
-  menuButton: {
-    marginLeft: -12,
-    marginRight: 20,
+  root: {
+    marginLeft: -28,
   },
   addIcon: {
     marginRight: 8
@@ -14,7 +13,10 @@ const styles = {
     boxShadow: 'none',
     fontSize: 13,
     paddingRight: 32
+  },
+  greyIcon: {
+    color: theme.palette.grey.main
   }
-};
+});
 
 export default styles;
