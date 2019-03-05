@@ -1,6 +1,6 @@
 # Boomtown 🏙
 
-Building a database for a back-end application supporting a sharing economy.
+Building a database for a back-end application supporting a sharing economy, while also building a user interface for user interaction to share items with other users.  Please note that dowloading and running this project will not work, as a database is required.
 
 ## Technologies Used
 
@@ -8,7 +8,7 @@ Building a database for a back-end application supporting a sharing economy.
 - GraphQL 
 - Node.js/Express
 - Javascript/Functional Programming
-- Terminal
+- React
 
 ## Server
 
@@ -48,6 +48,6 @@ npm start
 npm run build
 ```
 
-## Personal Learnings
+## Author
 
-Although I'm starting to get more comfortable with Javascript, more practice is definitely needed.
+Sophie Virtue
