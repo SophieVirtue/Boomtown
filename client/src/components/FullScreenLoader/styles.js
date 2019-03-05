@@ -1,7 +1,7 @@
 const styles = theme => ({
     root: {
       paddingTop: 200,
-      height: '100%',
+      height: 1000,
       backgroundColor: theme.palette.secondary.main
     },
     text: {

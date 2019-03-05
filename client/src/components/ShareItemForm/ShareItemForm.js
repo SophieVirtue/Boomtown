@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
 import { Form, Field, FormSpy } from 'react-final-form';
 import PropTypes from 'prop-types';
 import { Mutation } from 'react-apollo';
@@ -11,7 +11,8 @@ import {
   MenuItem,
   FormControl,
   Checkbox,
-  ListItemText
+  ListItemText,
+  Typography
 } from '@material-ui/core';
 import styles from './styles';
 import { withStyles } from '@material-ui/core/styles';
@@ -20,7 +21,6 @@ import {
   resetItem,
   resetImage
 } from '../../redux/modules/ShareItem';
-
 import { connect } from 'react-redux';
 import { validate } from './helpers/validation';
 import { ADD_ITEM_MUTATION } from '../../apollo/queries';
@@ -91,8 +91,10 @@ class ShareItemForm extends Component {
   render() {
     const { classes, tags, updateItem, resetImage, resetItem } = this.props;
     return (
-      <div className="App">
-        <h1>Share. Borrow. Prosper.</h1>
+      <Fragment>
+        <Typography variant="display2" className={classes.headline}>
+          Share. Borrow. Prosper.
+        </Typography>
         <Mutation mutation={ADD_ITEM_MUTATION}>
           {addItemMutation => {
             return (
@@ -125,7 +127,8 @@ class ShareItemForm extends Component {
                   form
                 }) => (
                   <form
-                    onSubmit={event => {
+                    className={classes.container}
+                    onSubmit={event =>
                       handleSubmit(event).then(() => {
                         this.fileInput.current.value = '';
                         this.setState({ fileSelected: false });
@@ -133,8 +136,8 @@ class ShareItemForm extends Component {
                         resetImage();
                         this.setState({ selectedTags: [] });
                         form.reset();
-                      }); 
-                    }}
+                      })
+                    }
                   >
                     <FormSpy
                       subscription={{ values: true }}
@@ -148,8 +151,9 @@ class ShareItemForm extends Component {
 
                     {!this.state.fileSelected ? (
                       <Button
+                        variant="contained"
                         fullWidth
-                        size="small"
+                        className={classes.button}
                         color="primary"
                         onClick={() => {
                           this.fileInput.current.click();
@@ -160,8 +164,9 @@ class ShareItemForm extends Component {
                     ) : (
                       <Button
                         fullWidth
-                        size="small"
-                        color="primary"
+                        variant="outlined"
+                        color="secondary"
+                        className={classes.button}
                         onClick={() => {
                           this.fileInput.current.value = '';
                           this.setState({ fileSelected: false });
@@ -185,7 +190,7 @@ class ShareItemForm extends Component {
                     <Field
                       name="title"
                       render={({ input, meta }) => (
-                        <div className="field">
+                        <FormControl fullWidth>
                           <TextField
                             id="standard-textarea"
                             label="Name your Item"
@@ -205,17 +210,17 @@ class ShareItemForm extends Component {
                                 {meta.error}
                               </div>
                             )}
-                        </div>
+                        </FormControl>
                       )}
                     />
 
                     <Field
                       name="description"
                       render={({ input, meta }) => (
-                        <div className="field">
+                        <FormControl fullWidth>
                           <Input
                             placeholder="Describe your Item"
-                            className={classes.input}
+                            className={classes.description}
                             inputProps={input}
                             maxLength="5"
                             multiline
@@ -230,7 +235,7 @@ class ShareItemForm extends Component {
                                 {meta.error}
                               </div>
                             )}
-                        </div>
+                        </FormControl>
                       )}
                     />
 
@@ -267,10 +272,10 @@ class ShareItemForm extends Component {
                     />
 
                     <Button
-                      size="small"
                       color="primary"
                       variant="contained"
                       type="submit"
+                      className={classes.share}
                       disabled={submitting || pristine || invalid}
                     >
                       Share
@@ -281,7 +286,7 @@ class ShareItemForm extends Component {
             );
           }}
         </Mutation>
-      </div>
+      </Fragment>
     );
   }
 }

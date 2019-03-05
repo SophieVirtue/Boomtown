@@ -1,21 +1,22 @@
-import React, { Fragment } from 'react';
+import React from 'react';
 import ShareItemForm from '../../components/ShareItemForm';
 import ShareItemPreview from '../../components/ShareItemPreview';
-import { Grid } from '@material-ui/core';
 import PropTypes from 'prop-types';
+import Grid from '@material-ui/core/Grid';
+import Hidden from '@material-ui/core/Hidden';
 
 const Share = ({ classes, tags }) => {
   return (
-    <Fragment>
-      <Grid container spacing={16}>
-        <Grid item xs={6}>
+    <Grid container className={classes.container} spacing={40} justify="center">
+      <Grid item sm={6} md={4}>
+        <Hidden only="xs">
           <ShareItemPreview />
-        </Grid>
-        <Grid item xs={6}>
-          <ShareItemForm classes={classes} tags={tags} />
-        </Grid>
+        </Hidden>
       </Grid>
-    </Fragment>
+      <Grid item xs={12} sm={6} md={4}>
+        <ShareItemForm tags={tags} classes={classes} />
+      </Grid>
+    </Grid>
   );
 };
 

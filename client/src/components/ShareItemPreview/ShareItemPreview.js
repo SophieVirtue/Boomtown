@@ -4,7 +4,9 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
 const ShareItemPreview = ({ shareItemPreview }) => {
-  return <ItemCard item={shareItemPreview} />;
+  return (
+    <ItemCard item={ shareItemPreview } />
+  );
 };
 
 const mapStateToProps = state => {
