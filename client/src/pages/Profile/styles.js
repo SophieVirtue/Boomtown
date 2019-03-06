@@ -1,7 +1,7 @@
 const styles = theme => ({
     container: {
         backgroundColor: theme.palette.secondary.main,
-        height: '100uv',
+        minHeight: '100uv',
         padding: 80
     },
     root: {

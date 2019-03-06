@@ -9,7 +9,7 @@ import { withStyles } from '@material-ui/core/styles';
 import Paper from '@material-ui/core/Paper';
 import ItemsGrid from '../../components/ItemsGrid';
 
-const Profile = ({ classes, profile, user }) => {
+const Profile = ({ classes, profile }) => {
   return (
     <div className={classes.container}>
       <Grid container spacing={24} className={classes.root}>

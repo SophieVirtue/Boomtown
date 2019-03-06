@@ -42,12 +42,6 @@ npm install
 npm start
 ```
 
-### Build
-
-```bash
-npm run build
-```
-
 ## Author
 
 Sophie Virtue
