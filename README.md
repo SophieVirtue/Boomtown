@@ -2,6 +2,8 @@
 
 Building a database for a back-end application supporting a sharing economy, while also building a user interface for user interaction to share items with other users.  Please note that dowloading and running this project will not work, as a database is required.
 
+![](Giphy.gif)
+
 ## Technologies Used
 
 - PostgreSQL
@@ -44,4 +46,4 @@ npm start
 
 ## Author
 
-Sophie Virtue
+Sophie Virtue  [LinkedIn](https://www.linkedin.com/in/sophie-virtue-65467849/)
